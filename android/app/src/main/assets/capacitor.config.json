@@ -1,0 +1,6 @@
+{
+	"appId": "com.karmaprint.manager",
+	"appName": "Karma Print",
+	"webDir": "renderer",
+	"bundledWebRuntime": false
+}

@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام إدارة مطبعة كارما برنت</title>
+    <!-- Google Fonts: Cairo & Tajawal -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Overlay for Mobile -->
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+        <!-- Sidebar Navigation (Right Aligned for RTL) -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="../logo.png" alt="Karma Print Logo" class="app-logo" id="sidebar-logo">
+                <div class="brand-info">
+                    <h1 class="brand-name">كارما برنت</h1>
+                    <span class="brand-subtitle">مطبعة رقمية متكاملة</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <button class="menu-item active" data-target="dashboard">
+                    <svg class="menu-icon" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                    <span>لوحة التحكم</span>
+                </button>
+                <button class="menu-item" data-target="clients">
+                    <svg class="menu-icon" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                    <span>العملاء</span>
+                </button>
+                <button class="menu-item" data-target="suppliers">
+                    <svg class="menu-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z"/></svg>
+                    <span>الموردون</span>
+                </button>
+                <button class="menu-item" data-target="supplier-invoices">
+                    <svg class="menu-icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                    <span>فواتير الموردين</span>
+                </button>
+                <button class="menu-item" data-target="orders">
+                    <svg class="menu-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                    <span>الطلبات والفواتير</span>
+                </button>
+                <button class="menu-item" data-target="inventory">
+                    <svg class="menu-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z"/></svg>
+                    <span>مخزن المواد</span>
+                </button>
+                <button class="menu-item" data-target="expenses">
+                    <svg class="menu-icon" viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 1.21-1.04 2.01-3 2.01-2.12 0-2.87-.92-3-2.2H6c.06 2.04 1.7 3.32 3.8 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
+                    <span>المصروفات</span>
+                </button>
+                <button class="menu-item" data-target="reports">
+                    <svg class="menu-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                    <span>التقارير المالية</span>
+                </button>
+                <button class="menu-item" data-target="settings">
+                    <svg class="menu-icon" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+                    <span>الإعدادات والنسخ الاحتياطي</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <span class="version-tag">إصدار 1.0.0</span>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header bar -->
+            <header class="content-header">
+                <div class="header-title-container">
+                    <h2 id="current-panel-title">لوحة التحكم</h2>
+                    <p id="current-panel-subtitle">إحصائيات المطبعة والعمليات الجارية</p>
+                </div>
+                <div class="header-actions">
+                    <button class="mobile-menu-toggle" id="btn-mobile-menu">
+                        <svg class="btn-icon" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+                    </button>
+                    <button class="btn btn-primary" id="btn-quick-order">
+                        <svg class="btn-icon" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                        <span>طلب طباعة جديد</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Panel: Dashboard -->
+            <section class="content-panel active" id="panel-dashboard">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="card stat-card cmyk-cyan">
+                        <div class="stat-icon-wrapper">
+                            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0-2-.9-2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">إجمالي الطلبات</span>
+                            <span class="stat-value" id="stat-total-orders">0</span>
+                        </div>
+                    </div>
+                    <div class="card stat-card cmyk-magenta">
+                        <div class="stat-icon-wrapper">
+                            <svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">المبيعات الإجمالية</span>
+                            <span class="stat-value" id="stat-total-sales">0.00 ج.م</span>
+                        </div>
+                    </div>
+                    <div class="card stat-card cmyk-yellow">
+                        <div class="stat-icon-wrapper">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">المبالغ غير المحصلة</span>
+                            <span class="stat-value" id="stat-remaining-debts">0.00 ج.م</span>
+                        </div>
+                    </div>
+                    <div class="card stat-card cmyk-key">
+                        <div class="stat-icon-wrapper">
+                            <svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">الطلبات النشطة (قيد التنفيذ)</span>
+                            <span class="stat-value" id="stat-active-orders">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Financial Chart & Quick Summary Grid -->
+                <div class="dashboard-grid">
+                    <!-- Custom SVG Graph Card -->
+                    <div class="card chart-card">
+                        <div class="card-header-row">
+                            <h3>المبيعات والمصروفات خلال الـ 6 أشهر الماضية</h3>
+                        </div>
+                        <div class="chart-container" id="svg-chart-wrapper">
+                            <!-- Custom interactive SVG chart will be drawn here dynamically by app.js -->
+                        </div>
+                        <div class="chart-legends">
+                            <div class="legend-item"><span class="legend-color cyan"></span><span>المبيعات</span></div>
+                            <div class="legend-item"><span class="legend-color magenta"></span><span>المصروفات</span></div>
+                            <div class="legend-item"><span class="legend-color yellow"></span><span>صافي الربح</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Alert / Materials Stock warning panel -->
+                    <div class="card warning-card">
+                        <h3>تنبيهات المخزون المنخفض</h3>
+                        <div class="warning-list" id="dashboard-stock-alerts">
+                            <div class="empty-state">المخزون ممتاز، لا توجد تنبيهات حالية.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Orders Table -->
+                <div class="card table-card">
+                    <div class="card-header-row">
+                        <h3>آخر طلبات الطباعة المستلمة</h3>
+                        <button class="btn btn-secondary btn-sm" id="btn-goto-orders">عرض كافة الطلبات</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>رقم الطلب</th>
+                                    <th>العميل</th>
+                                    <th>نوع الطباعة</th>
+                                    <th>الخامة</th>
+                                    <th>المساحة</th>
+                                    <th>الإجمالي</th>
+                                    <th>المدفوع</th>
+                                    <th>المتبقي</th>
+                                    <th>الحالة</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dashboard-recent-orders">
+                                <tr>
+                                    <td colspan="9" class="text-center">جاري تحميل البيانات...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Panel: Clients -->
+            <section class="content-panel" id="panel-clients">
+                <div class="search-actions-bar">
+                    <div class="search-wrapper">
+                        <input type="text" id="search-clients" placeholder="البحث عن عميل بالاسم أو الهاتف...">
+                        <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    </div>
+                    <button class="btn btn-primary" id="btn-add-client">
+                        <svg class="btn-icon" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                        <span>إضافة عميل جديد</span>
+                    </button>
+                </div>
+
+                <div class="clients-grid" id="clients-cards-container">
+                    <!-- Filled dynamically -->
+                </div>
+            </section>
+
+            <!-- Panel: Suppliers -->
+            <section class="content-panel" id="panel-suppliers">
+                <div class="search-actions-bar">
+                    <div class="search-wrapper">
+                        <input type="text" id="search-suppliers" placeholder="البحث عن مورد بالاسم أو الهاتف أو الشركة...">
+                        <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    </div>
+                    <button class="btn btn-primary" id="btn-add-supplier">
+                        <svg class="btn-icon" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                        <span>إضافة مورد جديد</span>
+                    </button>
+                </div>
+
+                <div class="clients-grid" id="suppliers-cards-container">
+                    <!-- Filled dynamically -->
+                </div>
+            </section>
+
+            <!-- Panel: Supplier Invoices -->
+            <section class="content-panel" id="panel-supplier-invoices">
+                <div class="search-actions-bar">
+                    <div class="search-wrapper">
+                        <input type="text" id="search-supplier-invoices" placeholder="البحث برقم الفاتورة أو المورد...">
+                        <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    </div>
+                    <div class="filter-group" id="filter-supplier-invoices">
+                        <button class="filter-btn active" data-status="all">الكل</button>
+                        <button class="filter-btn" data-status="paid">خالص</button>
+                        <button class="filter-btn" data-status="partial">دفعة جزئية</button>
+                        <button class="filter-btn" data-status="unpaid">غير مدفوع</button>
+                    </div>
+                    <button class="btn btn-secondary" id="btn-supplier-combined-invoice">
+                        <svg class="btn-icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 15h8v2H8zm0-4h8v2H8zm0-4h5v2H8z"/></svg>
+                        <span>فاتورة مجمعة للمورد</span>
+                    </button>
+                    <button class="btn btn-primary" id="btn-add-supplier-invoice">
+                        <svg class="btn-icon" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                        <span>إضافة فاتورة مورد</span>
+                    </button>
+                </div>
+
+                <div class="card table-card">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>رقم الفاتورة</th>
+                                    <th>المورد</th>
+                                    <th>الخامة</th>
+                                    <th>الكمية</th>
+                                    <th>السعر</th>
+                                    <th>الإجمالي</th>
+                                    <th>المدفوع</th>
+                                    <th>طريقة السداد</th>
+                                    <th>التاريخ</th>
+                                    <th class="actions-header">الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="supplier-invoices-list-tbody">
+                                <!-- Filled dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Panel: Orders & Invoices -->
+            <section class="content-panel" id="panel-orders">
+                <div class="search-actions-bar">
+                    <div class="search-wrapper">
+                        <input type="text" id="search-orders" placeholder="البحث برقم الفاتورة أو اسم العميل...">
+                        <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    </div>
+                    <div class="filter-group">
+                        <button class="filter-btn active" data-status="all">الكل</button>
+                        <button class="filter-btn" data-status="pending">قيد الانتظار</button>
+                        <button class="filter-btn" data-status="in-progress">قيد التنفيذ</button>
+                        <button class="filter-btn" data-status="ready">جاهز للتسليم</button>
+                        <button class="filter-btn" data-status="delivered">تم التسليم</button>
+                    </div>
+                    <button class="btn btn-secondary" id="btn-combined-invoice">
+                        <svg class="btn-icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 15h8v2H8zm0-4h8v2H8zm0-4h5v2H8z"/></svg>
+                        <span>فاتورة مجمعة</span>
+                    </button>
+                </div>
+
+                <div class="card table-card">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>رقم الفاتورة</th>
+                                    <th>العميل</th>
+                                    <th>النوع</th>
+                                    <th>الخامة</th>
+                                    <th>المقاس (عرض × ارتفاع)</th>
+                                    <th>المساحة</th>
+                                    <th>المجموع الكلي</th>
+                                    <th>المدفوع</th>
+                                    <th>المتبقي</th>
+                                    <th>الحالة</th>
+                                    <th>التاريخ</th>
+                                    <th class="actions-header">الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-list-tbody">
+                                <!-- Filled dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Panel: Inventory -->
+            <section class="content-panel" id="panel-inventory">
+                <div class="search-actions-bar">
+                    <div class="search-wrapper">
+                        <input type="text" id="search-materials" placeholder="البحث عن مادة/خامة...">
+                        <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    </div>
+                    <button class="btn btn-primary" id="btn-add-material">
+                        <svg class="btn-icon" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                        <span>إضافة خامة جديدة للمخزن</span>
+                    </button>
+                </div>
+
+                <div class="inventory-grid" id="inventory-container">
+                    <!-- Filled dynamically -->
+                </div>
+            </section>
+
+            <!-- Panel: Expenses -->
+            <section class="content-panel" id="panel-expenses">
+                <div class="expenses-layout">
+                    <!-- Left: Expenses Log -->
+                    <div class="card expenses-log-card">
+                        <div class="card-header-row">
+                            <h3>سجل المصروفات التشغيلية</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>بند الصرف</th>
+                                        <th>الوصف</th>
+                                        <th>القيمة</th>
+                                        <th>التاريخ</th>
+                                        <th class="actions-header">إجراء</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="expenses-list-tbody">
+                                    <!-- Filled dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Right: Add Expense Form -->
+                    <div class="card expenses-form-card">
+                        <h3>تسجيل مصروف جديد</h3>
+                        <form id="form-add-expense" class="compact-form">
+                            <div class="form-group">
+                                <label for="expense-category">بند المصروف</label>
+                                <select id="expense-category" required>
+                                    <option value="" disabled selected>اختر البند المناسب...</option>
+                                    <option value="أحبار ومستلزمات">أحبار ومستلزمات طباعة</option>
+                                    <option value="صيانة ماكينات">صيانة ماكينات</option>
+                                    <option value="رواتب وأجور">رواتب وأجور موظفين</option>
+                                    <option value="إيجار المقر">إيجار مقر المطبعة</option>
+                                    <option value="كهرباء ومرافق">كهرباء وخدمات مرافق</option>
+                                    <option value="دعاية وإعلان">تسويق ودعاية</option>
+                                    <option value="مصاريف أخرى">مصاريف تشغيلية أخرى</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="expense-amount">القيمة المالية (ج.م)</label>
+                                <input type="number" id="expense-amount" min="1" step="0.01" placeholder="مثال: 450" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="expense-description">الوصف / ملاحظات</label>
+                                <textarea id="expense-description" rows="3" placeholder="أدخل تفاصيل المصروف هنا..." required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="expense-date">تاريخ الصرف</label>
+                                <input type="date" id="expense-date" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">تأكيد وتسجيل المصروف</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Panel: Reports -->
+            <section class="content-panel" id="panel-reports">
+                <div class="reports-header-row">
+                    <div class="report-filters">
+                        <label for="report-month-select">تحديد الفترة المالية للتقرير:</label>
+                        <input type="month" id="report-month-select">
+                    </div>
+                    <button class="btn btn-secondary" onclick="printFinancialReport()">
+                        <svg class="btn-icon" viewBox="0 0 24 24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+                        <span>طباعة التقرير المالي</span>
+                    </button>
+                </div>
+
+                <div class="report-summary-cards">
+                    <div class="card stat-card cmyk-cyan">
+                        <div class="stat-info">
+                            <span class="stat-label">مبيعات الفترة المحددة</span>
+                            <span class="stat-value" id="report-sales">0.00 ج.م</span>
+                        </div>
+                    </div>
+                    <div class="card stat-card cmyk-magenta">
+                        <div class="stat-info">
+                            <span class="stat-label">المصروفات في نفس الفترة</span>
+                            <span class="stat-value" id="report-expenses">0.00 ج.م</span>
+                        </div>
+                    </div>
+                    <div class="card stat-card cmyk-yellow">
+                        <div class="stat-info">
+                            <span class="stat-label">تكلفة المواد المستخدمة</span>
+                            <span class="stat-value" id="report-material-cost">0.00 ج.م</span>
+                        </div>
+                    </div>
+                    <div class="card stat-card cmyk-key">
+                        <div class="stat-info">
+                            <span class="stat-label">صافي الأرباح التشغيلية</span>
+                            <span class="stat-value" id="report-net-profit">0.00 ج.م</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="report-grid">
+                    <div class="card report-table-card">
+                        <h3>ملخص الطلبات المنفذة في هذه الفترة</h3>
+                        <div class="table-responsive">
+                            <table class="data-table compact">
+                                <thead>
+                                    <tr>
+                                        <th>رقم الطلب</th>
+                                        <th>العميل</th>
+                                        <th>الخامة</th>
+                                        <th>المساحة (م²)</th>
+                                        <th>الإجمالي</th>
+                                        <th>الحالة</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="report-orders-tbody">
+                                    <tr><td colspan="6" class="text-center">اختر فترة لعرض التفاصيل</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card report-chart-card">
+                        <h3>توزيع بنود الصرف للفترة المحددة</h3>
+                        <div class="expense-breakdown-list" id="report-expense-breakdown">
+                            <!-- Filled dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Panel: Settings & DB -->
+            <section class="content-panel" id="panel-settings">
+                <div class="settings-grid">
+                    <!-- Database tools card -->
+                    <div class="card settings-card">
+                        <div class="settings-card-header">
+                            <svg class="card-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                            <h3>إدارة قاعدة البيانات المحلية (Realm DB)</h3>
+                        </div>
+                        <p class="settings-description">
+                            يمكنك إجراء نسخ احتياطي لكافة جداول البيانات للمطبعة (العملاء، الخامات، الفواتير، المصاريف) وحفظها في ملف JSON واحد، أو استعادة نسخة سابقة، أو إعادة تهيئة النظام بالكامل.
+                        </p>
+                        <div class="settings-actions-group">
+                            <button class="btn btn-secondary btn-lg btn-block" id="btn-export-db">
+                                <svg class="btn-icon" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+                                <span>تصدير البيانات احتياطياً (Export JSON)</span>
+                            </button>
+                            <button class="btn btn-secondary btn-lg btn-block" id="btn-import-db">
+                                <svg class="btn-icon" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3zm-8-5h-3l4-4 4 4h-3v4h-2v-4z"/></svg>
+                                <span>استيراد قاعدة بيانات سابقة (Import JSON)</span>
+                            </button>
+                            <button class="btn btn-danger btn-lg btn-block" id="btn-reset-db">
+                                <svg class="btn-icon" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                                <span>إعادة تهيئة النظام كاملاً (Reset DB)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Print details & default prices -->
+                    <div class="card settings-card">
+                        <div class="settings-card-header">
+                            <svg class="card-icon" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+                            <h3>إعدادات مطبعة كارما برنت</h3>
+                        </div>
+                        <p class="settings-description">تعديل معلومات الاتصال الأساسية المطبوعة على ترويسة الفواتير للعملاء.</p>
+                        <form id="form-shop-settings" class="compact-form">
+                            <div class="form-group">
+                                <label for="shop-address">عنوان المطبعة بالتفصيل</label>
+                                <input type="text" id="shop-address" value="المنطقة الصناعية، مجمع مطابع الدعاية والإعلان" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="shop-phone">رقم هاتف التواصل</label>
+                                <input type="text" id="shop-phone" value="0599999999" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="shop-tax-no">الرقم الضريبي للمطبعة</label>
+                                <input type="text" id="shop-tax-no" value="300054321000003" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">حفظ الإعدادات</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals Containers -->
+    
+    <!-- Modal: Add Client -->
+    <div class="modal-overlay" id="modal-add-client">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="client-modal-title">تسجيل عميل جديد</h3>
+                <button class="modal-close-btn">&times;</button>
+            </div>
+            <form id="form-add-client">
+                <input type="hidden" id="client-id">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="client-name">اسم العميل بالكامل</label>
+                        <input type="text" id="client-name" placeholder="أدخل اسم العميل..." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="client-phone">رقم الهاتف</label>
+                        <input type="tel" id="client-phone" placeholder="مثال: 059xxxxxxxx" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="client-address">العنوان أو ملاحظات</label>
+                        <input type="text" id="client-address" placeholder="عنوان العمل أو أي تفاصيل إضافية...">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-close-modal">إلغاء</button>
+                    <button type="submit" class="btn btn-primary" id="btn-save-client">حفظ العميل</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Add Supplier -->
+    <div class="modal-overlay" id="modal-add-supplier">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="supplier-modal-title">تسجيل مورد جديد</h3>
+                <button class="modal-close-btn">&times;</button>
+            </div>
+            <form id="form-add-supplier">
+                <input type="hidden" id="supplier-id">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="supplier-name">اسم المورد بالكامل</label>
+                        <input type="text" id="supplier-name" placeholder="أدخل اسم المورد..." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="supplier-phone">رقم الهاتف</label>
+                        <input type="tel" id="supplier-phone" placeholder="مثال: 059xxxxxxxx" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="supplier-company">الشركة أو جهة التوريد</label>
+                        <input type="text" id="supplier-company" placeholder="مثال: مصنع الأمل للأحبار، شركة النور للمواد...">
+                    </div>
+                    <div class="form-group">
+                        <label for="supplier-address">العنوان أو ملاحظات</label>
+                        <input type="text" id="supplier-address" placeholder="عنوان المورد أو أي تفاصيل إضافية...">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-close-modal">إلغاء</button>
+                    <button type="submit" class="btn btn-primary" id="btn-save-supplier">حفظ المورد</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Add Supplier Invoice -->
+    <div class="modal-overlay" id="modal-add-supplier-invoice">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="supplier-invoice-modal-title">تسجيل فاتورة مورد</h3>
+                <button class="modal-close-btn">&times;</button>
+            </div>
+            <form id="form-add-supplier-invoice">
+                <input type="hidden" id="supplier-invoice-id">
+                <div class="modal-body">
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="supplier-invoice-number">رقم الفاتورة</label>
+                            <input type="text" id="supplier-invoice-number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier-invoice-date">تاريخ الفاتورة</label>
+                            <input type="date" id="supplier-invoice-date" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="supplier-invoice-supplier">اسم المورد</label>
+                        <select id="supplier-invoice-supplier" required>
+                            <option value="" disabled selected>اختر المورد...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="supplier-invoice-material">الخامة المشتراة</label>
+                        <select id="supplier-invoice-material" required>
+                            <option value="" disabled selected>اختر الخامة...</option>
+                        </select>
+                    </div>
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="supplier-invoice-quantity">الكمية</label>
+                            <input type="number" id="supplier-invoice-quantity" min="0.1" step="0.1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier-invoice-unit-price">سعر الوحدة</label>
+                            <input type="number" id="supplier-invoice-unit-price" min="0.1" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="supplier-invoice-amount-paid">المبلغ المدفوع</label>
+                            <input type="number" id="supplier-invoice-amount-paid" min="0" step="0.01" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier-invoice-payment-method">طريقة السداد</label>
+                            <select id="supplier-invoice-payment-method" required>
+                                <option value="cash">نقدي</option>
+                                <option value="transfer">تحويل بنكي</option>
+                                <option value="deferred">آجل</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="supplier-invoice-notes">ملاحظات</label>
+                        <textarea id="supplier-invoice-notes" rows="2"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-close-modal">إلغاء</button>
+                    <button type="submit" class="btn btn-primary" id="btn-save-supplier-invoice">حفظ الفاتورة</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Add/Edit Material -->
+    <div class="modal-overlay" id="modal-add-material">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="material-modal-title">إضافة خامة جديدة للمستودع</h3>
+                <button class="modal-close-btn">&times;</button>
+            </div>
+            <form id="form-add-material">
+                <input type="hidden" id="material-id">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="material-name">اسم الخامة/المادة</label>
+                        <input type="text" id="material-name" placeholder="مثال: بانر 440 جرام، ستيكر لامع" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="material-type">القسم المناسب</label>
+                        <select id="material-type" required>
+                            <option value="Outdoor">طباعة خارجية (Outdoor)</option>
+                            <option value="Indoor">طباعة داخلية (Indoor)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="material-supplier-select">المورد المعتمد</label>
+                        <select id="material-supplier-select">
+                            <option value="">اختر المورد (اختياري)...</option>
+                            <!-- Filled dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="material-stock">الكمية المتوفرة بالمستودع (متر مربع)</label>
+                        <input type="number" id="material-stock" min="0" step="0.1" placeholder="مثال: 500" required>
+                    </div>
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label for="material-cost">سعر التكلفة للمتر (ج.م)</label>
+                            <input type="number" id="material-cost" min="0.1" step="0.01" placeholder="مثال: 5" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="material-sell">سعر البيع المقترح للمتر (ج.م)</label>
+                            <input type="number" id="material-sell" min="0.1" step="0.01" placeholder="مثال: 15" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-close-modal">إلغاء</button>
+                    <button type="submit" class="btn btn-primary" id="btn-save-material">حفظ الخامة</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Add/Edit Order -->
+    <div class="modal-overlay" id="modal-add-order">
+        <div class="modal-container modal-large">
+            <div class="modal-header">
+                <h3 id="order-modal-title">إنشاء طلب طباعة جديد</h3>
+                <button class="modal-close-btn">&times;</button>
+            </div>
+            <form id="form-add-order">
+                <input type="hidden" id="order-id">
+                <div class="modal-body">
+                    <div class="order-form-layout">
+                        <!-- Left Block: Order Info & Size Calculator -->
+                        <div class="order-form-inputs">
+                            <div class="form-group">
+                                <label for="order-client-select">اختر العميل</label>
+                                <div class="select-with-add">
+                                    <select id="order-client-select" required>
+                                        <option value="" disabled selected>اختر العميل المستلم...</option>
+                                        <!-- Filled dynamically -->
+                                    </select>
+                                    <button type="button" class="btn btn-secondary btn-icon-only" id="btn-order-new-client" title="إضافة عميل جديد سريعاً">
+                                        <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-grid-2">
+                                <div class="form-group">
+                                    <label for="order-print-type">نوع الطباعة</label>
+                                    <select id="order-print-type" required>
+                                        <option value="Outdoor">أوتدور (Outdoor)</option>
+                                        <option value="Indoor">إندور (Indoor)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="order-material-select">الخامة المطلوبة</label>
+                                    <select id="order-material-select" required>
+                                        <option value="" disabled selected>اختر الخامة أولاً...</option>
+                                        <!-- Filled dynamically based on type -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-grid-3">
+                                <div class="form-group">
+                                    <label for="order-width">العرض (متر)</label>
+                                    <input type="number" id="order-width" min="0.1" step="0.01" placeholder="0.00" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="order-height">الارتفاع (متر)</label>
+                                    <input type="number" id="order-height" min="0.1" step="0.01" placeholder="0.00" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="order-quantity">الكمية (عدد النسخ)</label>
+                                    <input type="number" id="order-quantity" min="1" step="1" value="1" required>
+                                </div>
+                            </div>
+                            <div class="form-grid-2">
+                                <div class="form-group">
+                                    <label for="order-unit-price">سعر بيع المتر مربع (ج.م)</label>
+                                    <input type="number" id="order-unit-price" min="0.1" step="0.01" placeholder="0.00" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="order-status-select">حالة الطلب</label>
+                                    <select id="order-status-select" required>
+                                        <option value="pending" selected>قيد الانتظار</option>
+                                        <option value="in-progress">قيد التنفيذ</option>
+                                        <option value="ready">جاهز للتسليم</option>
+                                        <option value="delivered">تم التسليم</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="order-notes">ملاحظات العمل / وصف التصميم</label>
+                                <textarea id="order-notes" rows="2" placeholder="اكتب تفاصيل إضافية مثل: قص ريماك، تخريم حلقات..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Right Block: Invoice Calculation Summary (Premium glassmorphic look) -->
+                        <div class="order-form-summary card cmyk-cyan-bg">
+                            <h4>ملخص حسابات الفاتورة</h4>
+                            <hr class="summary-divider">
+                            <div class="summary-row">
+                                <span>إجمالي المساحة الكلية:</span>
+                                <strong id="summary-total-area">0.00 م²</strong>
+                            </div>
+                            <div class="summary-row">
+                                <span>سعر المتر الافتراضي:</span>
+                                <strong id="summary-default-price">0.00 ج.م</strong>
+                            </div>
+                            <hr class="summary-divider">
+                            <div class="summary-row total-sales-row">
+                                <span>المجموع الإجمالي المطلوب:</span>
+                                <strong id="summary-total-price">0.00 ج.م</strong>
+                            </div>
+                            <hr class="summary-divider">
+                            <div class="form-group">
+                                <label for="order-amount-paid">المبلغ المدفوع مقدماً (ج.م)</label>
+                                <input type="number" id="order-amount-paid" min="0" step="0.01" value="0.00">
+                            </div>
+                            <div class="summary-row remaining-debt-row">
+                                <span>المبلغ المتبقي المعلق:</span>
+                                <strong id="summary-remaining-debt">0.00 ج.م</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-close-modal">إلغاء</button>
+                    <button type="submit" class="btn btn-primary" id="btn-save-order">إنشاء وحفظ الطلب</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Manage Payments -->
+    <div class="modal-overlay" id="modal-manage-payments">
+        <div class="modal-container modal-large">
+            <div class="modal-header">
+                <h3 id="payments-modal-title">إدارة دفعات الفاتورة والتحصيل</h3>
+                <button class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="order-form-layout">
+                    <!-- Left Block: Payments History Table & New Payment Form -->
+                    <div class="order-form-inputs">
+                        <h4 style="margin-bottom: 15px;">سجل الدفعات والمقبوضات</h4>
+                        <div class="table-responsive" style="max-height: 200px; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 20px;">
+                            <table class="data-table compact">
+                                <thead>
+                                    <tr>
+                                        <th>المبلغ (ج.م)</th>
+                                        <th>التاريخ</th>
+                                        <th>ملاحظات الدفع</th>
+                                        <th>الإجراءات</th>
+                                     </tr>
+                                </thead>
+                                <tbody id="order-payments-list-tbody">
+                                     <!-- Filled dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Form: Add/Edit Payment -->
+                        <form id="form-record-payment" class="compact-form" style="border-top: 1px solid var(--border-color); padding-top: 15px;">
+                            <h4 id="payment-form-title" style="margin-bottom: 15px;">سداد مبلغ جديد</h4>
+                            <input type="hidden" id="payment-id">
+                            <input type="hidden" id="payment-order-id">
+                            <div class="form-grid-3">
+                                <div class="form-group">
+                                    <label for="payment-amount">المبلغ المدفوع (ج.م)</label>
+                                    <input type="number" id="payment-amount" min="0.1" step="0.01" placeholder="مثال: 500" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="payment-date">تاريخ السداد</label>
+                                    <input type="date" id="payment-date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="payment-notes">طريقة الدفع / ملاحظات</label>
+                                    <input type="text" id="payment-notes" placeholder="مثال: كاش، شبكة، تحويل...">
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                                <button type="submit" class="btn btn-primary" id="btn-save-payment" style="flex: 2;">تأكيد وتسجيل الدفعة</button>
+                                <button type="button" class="btn btn-secondary" id="btn-cancel-payment-edit" style="display: none; flex: 1;">إلغاء التعديل</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Right Block: Summary -->
+                    <div class="order-form-summary card cmyk-cyan-bg">
+                        <h4>ملخص الحساب الحالي</h4>
+                        <hr class="summary-divider">
+                        <div class="summary-row">
+                            <span>رقم الفاتورة:</span>
+                            <strong id="pay-summary-order-no">-</strong>
+                        </div>
+                        <div class="summary-row">
+                            <span>اسم العميل:</span>
+                            <strong id="pay-summary-client">-</strong>
+                        </div>
+                        <hr class="summary-divider">
+                        <div class="summary-row total-sales-row">
+                            <span>المجموع الإجمالي للفاتورة:</span>
+                            <strong id="pay-summary-total">0.00 ج.م</strong>
+                        </div>
+                        <div class="summary-row">
+                            <span>إجمالي المبالغ المدفوعة:</span>
+                            <strong id="pay-summary-paid" class="text-success">0.00 ج.م</strong>
+                        </div>
+                        <hr class="summary-divider">
+                        <div class="summary-row remaining-debt-row">
+                            <span>المبلغ المتبقي المعلق:</span>
+                            <strong id="pay-summary-remaining">0.00 ج.م</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-close-modal">إغلاق النافذة</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Manage Supplier Payments -->
+    <div class="modal-overlay" id="modal-manage-supplier-payments">
+        <div class="modal-container modal-large">
+            <div class="modal-header">
+                <h3 id="supplier-payments-modal-title">إدارة دفعات فاتورة المورد</h3>
+                <button class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="order-form-layout">
+                    <!-- Left Block: Payments History Table & New Payment Form -->
+                    <div class="order-form-inputs">
+                        <h4 style="margin-bottom: 15px;">سجل الدفعات السابقة</h4>
+                        <div class="table-responsive" style="max-height: 200px; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 20px;">
+                            <table class="data-table compact">
+                                <thead>
+                                    <tr>
+                                        <th>المبلغ (ج.م)</th>
+                                        <th>التاريخ</th>
+                                        <th>ملاحظات</th>
+                                        <th>الإجراءات</th>
+                                     </tr>
+                                </thead>
+                                <tbody id="supplier-payments-list-tbody">
+                                     <!-- Filled dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Form: Add/Edit Payment -->
+                        <form id="form-record-supplier-payment" class="compact-form" style="border-top: 1px solid var(--border-color); padding-top: 15px;">
+                            <h4 id="supplier-payment-form-title" style="margin-bottom: 15px;">تسجيل دفعة جديدة</h4>
+                            <input type="hidden" id="supplier-payment-id">
+                            <input type="hidden" id="supplier-payment-invoice-id">
+                            <div class="form-grid-3">
+                                <div class="form-group">
+                                    <label for="supplier-payment-amount">مبلغ الدفعة (ج.م)</label>
+                                    <input type="number" id="supplier-payment-amount" min="0.1" step="0.01" placeholder="مثال: 500" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="supplier-payment-date">تاريخ السداد</label>
+                                    <input type="date" id="supplier-payment-date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="supplier-payment-notes">طريقة الدفع / ملاحظات</label>
+                                    <input type="text" id="supplier-payment-notes" placeholder="مثال: كاش / حوالة...">
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                                <button type="submit" class="btn btn-primary" id="btn-save-supplier-payment" style="flex: 2;">حفظ الدفعة الجديدة</button>
+                                <button type="button" class="btn btn-secondary" id="btn-cancel-supplier-payment-edit" style="display: none; flex: 1;">إلغاء التعديل</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Right Block: Summary -->
+                    <div class="order-form-summary card cmyk-cyan-bg">
+                        <h4>ملخص حساب الفاتورة</h4>
+                        <hr class="summary-divider">
+                        <div class="summary-row">
+                            <span>رقم الفاتورة:</span>
+                            <strong id="sup-pay-summary-invoice-no">-</strong>
+                        </div>
+                        <div class="summary-row">
+                            <span>اسم المورد:</span>
+                            <strong id="sup-pay-summary-supplier">-</strong>
+                        </div>
+                        <hr class="summary-divider">
+                        <div class="summary-row total-sales-row">
+                            <span>إجمالي الفاتورة:</span>
+                            <strong id="sup-pay-summary-total">0.00 ج.م</strong>
+                        </div>
+                        <div class="summary-row">
+                            <span>إجمالي المدفوع:</span>
+                            <strong id="sup-pay-summary-paid" class="text-success">0.00 ج.م</strong>
+                        </div>
+                        <hr class="summary-divider">
+                        <div class="summary-row remaining-debt-row">
+                            <span>المبلغ المتبقي:</span>
+                            <strong id="sup-pay-summary-remaining">0.00 ج.م</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-close-modal">إغلاق النافذة</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Combined Invoice Builder -->
+    <div class="modal-overlay" id="modal-combined-invoice">
+        <div class="modal-container modal-xl">
+            <div class="modal-header">
+                <h3 id="combined-invoice-title">إنشاء فاتورة مجمعة للعميل</h3>
+                <button class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="combined-invoice-layout">
+
+                    <!-- Right: Client selector & Items Table -->
+                    <div class="combined-invoice-main">
+
+                        <!-- Client & Payment Method Row -->
+                        <div class="form-grid-2" style="margin-bottom:16px;">
+                            <div class="form-group">
+                                <label for="combined-client-select">اختر العميل</label>
+                                <select id="combined-client-select">
+                                    <option value="" disabled selected>اختر العميل...</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="combined-payment-method">طريقة السداد</label>
+                                <select id="combined-payment-method">
+                                    <option value="cash">💵 نقدي</option>
+                                    <option value="transfer">🏦 تحويل بنكي</option>
+                                    <option value="credit">💳 بطاقة ائتمان</option>
+                                    <option value="deferred">📅 آجل / مؤجل</option>
+                                    <option value="mixed">🔀 متعدد / مختلط</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Items Table -->
+                        <div class="combined-items-header">
+                            <h4>بنود الفاتورة</h4>
+                            <button type="button" class="btn btn-primary btn-sm" id="btn-add-combined-item">
+                                <svg class="btn-icon" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                                إضافة بند جديد
+                            </button>
+                        </div>
+
+                        <div class="table-responsive" style="max-height:340px; border:1px solid var(--border-color); border-radius:8px; margin-bottom:16px;">
+                            <table class="data-table compact" id="combined-items-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>وصف العمل / الخامة</th>
+                                        <th>الأبعاد (ع×ا)</th>
+                                        <th>الكمية</th>
+                                        <th>سعر م²</th>
+                                        <th>المساحة م²</th>
+                                        <th>الإجمالي</th>
+                                        <th>حذف</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="combined-items-tbody">
+                                    <tr id="combined-empty-row">
+                                        <td colspan="8" class="text-center text-muted">اختر عميلاً أولاً لتظهر فواتيره أو أضف بنداً يدوياً.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Add Item Form -->
+                        <div class="combined-add-row" id="combined-add-row" style="display:none;">
+                            <div class="form-grid-3" style="gap:8px; align-items:flex-end;">
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label>وصف العمل / الخامة</label>
+                                    <input type="text" id="new-item-desc" placeholder="مثال: بانر 440 جرام" style="font-size:13px;">
+                                </div>
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label>العرض (م)</label>
+                                    <input type="number" id="new-item-width" min="0" step="0.01" placeholder="0.00" style="font-size:13px;">
+                                </div>
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label>الارتفاع (م)</label>
+                                    <input type="number" id="new-item-height" min="0" step="0.01" placeholder="0.00" style="font-size:13px;">
+                                </div>
+                            </div>
+                            <div class="form-grid-3" style="gap:8px; align-items:flex-end; margin-top:8px;">
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label>الكمية</label>
+                                    <input type="number" id="new-item-qty" min="1" step="1" value="1" style="font-size:13px;">
+                                </div>
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label>سعر م² (ج.م)</label>
+                                    <input type="number" id="new-item-price" min="0" step="0.01" placeholder="0.00" style="font-size:13px;">
+                                </div>
+                                <div style="display:flex; gap:8px;">
+                                    <button type="button" class="btn btn-primary" id="btn-confirm-add-item" style="flex:1;">إضافة ✓</button>
+                                    <button type="button" class="btn btn-secondary" id="btn-cancel-add-item" style="flex:1;">إلغاء</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Notes -->
+                        <div class="form-group" style="margin-top:12px;">
+                            <label for="combined-notes">ملاحظات الفاتورة (اختياري)</label>
+                            <textarea id="combined-notes" rows="2" placeholder="أي ملاحظات خاصة بهذه الفاتورة المجمعة..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Left: Summary Panel -->
+                    <div class="order-form-summary card cmyk-cyan-bg">
+                        <h4>ملخص الفاتورة المجمعة</h4>
+                        <hr class="summary-divider">
+                        <div class="summary-row">
+                            <span>العميل:</span>
+                            <strong id="ci-summary-client">-</strong>
+                        </div>
+                        <div class="summary-row">
+                            <span>عدد البنود:</span>
+                            <strong id="ci-summary-count">0 بند</strong>
+                        </div>
+                        <hr class="summary-divider">
+                        <div class="summary-row total-sales-row">
+                            <span>الإجمالي الكلي:</span>
+                            <strong id="ci-summary-total">0.00 ج.م</strong>
+                        </div>
+                        <hr class="summary-divider">
+                        <div class="form-group">
+                            <label for="ci-amount-paid">المبلغ المدفوع (ج.م)</label>
+                            <input type="number" id="ci-amount-paid" min="0" step="0.01" value="0.00">
+                        </div>
+                        <div class="summary-row remaining-debt-row">
+                            <span>المتبقي:</span>
+                            <strong id="ci-summary-remaining">0.00 ج.م</strong>
+                        </div>
+                        <hr class="summary-divider">
+                        <div class="summary-row">
+                            <span>طريقة السداد:</span>
+                            <strong id="ci-summary-method">نقدي</strong>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-close-modal">إلغاء</button>
+                <button type="button" class="btn btn-secondary" id="btn-print-combined-invoice">
+                    <svg class="btn-icon" viewBox="0 0 24 24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+                    طباعة الفاتورة المجمعة
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Supplier Combined Invoice Builder -->
+    <div class="modal-overlay" id="modal-supplier-combined-invoice">
+        <div class="modal-container modal-xl">
+            <div class="modal-header">
+                <h3 id="supplier-combined-invoice-title">إنشاء فاتورة مجمعة للمورد</h3>
+                <button class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="combined-invoice-layout">
+
+                    <!-- Main: Supplier selector & Items Table -->
+                    <div class="combined-invoice-main">
+
+                        <!-- Supplier & Payment Method Row -->
+                        <div class="form-grid-2" style="margin-bottom:16px;">
+                            <div class="form-group">
+                                <label for="sup-combined-supplier-select">اختر المورد</label>
+                                <select id="sup-combined-supplier-select">
+                                    <option value="" disabled selected>اختر المورد...</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="sup-combined-payment-method">طريقة السداد</label>
+                                <select id="sup-combined-payment-method">
+                                    <option value="cash">💵 نقدي</option>
+                                    <option value="transfer">🏦 تحويل بنكي</option>
+                                    <option value="credit">💳 بطاقة ائتمان</option>
+                                    <option value="deferred">📅 آجل / مؤجل</option>
+                                    <option value="mixed">🔀 متعدد / مختلط</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Items Table -->
+                        <div class="combined-items-header">
+                            <h4 style="color: var(--warning) !important;">بنود أمر الشراء</h4>
+                            <button type="button" class="btn btn-sm" id="btn-add-sup-combined-item" style="background: linear-gradient(135deg, var(--warning), #ff6f00); color:#000; font-weight:800;">
+                                <svg class="btn-icon" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                                إضافة خامة / بند
+                            </button>
+                        </div>
+
+                        <div class="table-responsive" style="max-height:320px; border:1px solid var(--border-color); border-radius:8px; margin-bottom:16px;">
+                            <table class="data-table compact" id="sup-combined-items-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>الخامة / البند</th>
+                                        <th>الكمية</th>
+                                        <th>وحدة القياس</th>
+                                        <th>سعر الوحدة</th>
+                                        <th>الإجمالي</th>
+                                        <th>حذف</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="sup-combined-items-tbody">
+                                    <tr id="sup-combined-empty-row">
+                                        <td colspan="7" class="text-center text-muted">اختر موردًا أولاً لتظهر فواتيره أو أضف بندًا يدوياً.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Add Item Form for Supplier -->
+                        <div class="combined-add-row" id="sup-combined-add-row" style="display:none; border-color: rgba(255,171,0,0.3); background: rgba(255,171,0,0.04);">
+                            <div class="form-grid-3" style="gap:8px; align-items:flex-end;">
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label>الخامة / البند</label>
+                                    <input type="text" id="sup-new-item-desc" placeholder="مثال: بانر 440 جرام" style="font-size:13px;">
+                                </div>
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label>الكمية</label>
+                                    <input type="number" id="sup-new-item-qty" min="0.01" step="0.01" value="1" style="font-size:13px;">
+                                </div>
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label>وحدة القياس</label>
+                                    <select id="sup-new-item-unit" style="font-size:13px;">
+                                        <option value="متر مربع">متر مربع</option>
+                                        <option value="لفة">لفة</option>
+                                        <option value="كيلو">كيلو</option>
+                                        <option value="قطعة">قطعة</option>
+                                        <option value="علبة">علبة</option>
+                                        <option value="أخرى">أخرى</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-grid-3" style="gap:8px; align-items:flex-end; margin-top:8px;">
+                                <div class="form-group" style="margin-bottom:0;">
+                                    <label>سعر الوحدة (ج.م)</label>
+                                    <input type="number" id="sup-new-item-price" min="0" step="0.01" placeholder="0.00" style="font-size:13px;">
+                                </div>
+                                <div style="display:flex; gap:8px;">
+                                    <button type="button" class="btn btn-sm" id="btn-sup-confirm-add-item" style="flex:1; background: linear-gradient(135deg,var(--warning),#ff6f00); color:#000; font-weight:800;">إضافة ✓</button>
+                                    <button type="button" class="btn btn-secondary btn-sm" id="btn-sup-cancel-add-item" style="flex:1;">إلغاء</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Notes -->
+                        <div class="form-group" style="margin-top:12px;">
+                            <label for="sup-combined-notes">ملاحظات أمر الشراء (اختياري)</label>
+                            <textarea id="sup-combined-notes" rows="2" placeholder="أي ملاحظات خاصة بهذا الأمر المجمع..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Summary Panel for Supplier -->
+                    <div class="order-form-summary sup-ci-bg">
+                        <h4>ملخص أمر الشراء المجمع</h4>
+                        <hr class="summary-divider">
+                        <div class="summary-row">
+                            <span>المورد:</span>
+                            <strong id="sup-ci-summary-supplier">-</strong>
+                        </div>
+                        <div class="summary-row">
+                            <span>عدد البنود:</span>
+                            <strong id="sup-ci-summary-count">0 بند</strong>
+                        </div>
+                        <hr class="summary-divider">
+                        <div class="summary-row" style="font-size:14px;">
+                            <span style="color: var(--warning);">الإجمالي الكلي:</span>
+                            <strong id="sup-ci-summary-total" style="color: var(--warning);">0.00 ج.م</strong>
+                        </div>
+                        <hr class="summary-divider">
+                        <div class="form-group">
+                            <label for="sup-ci-amount-paid">المبلغ المدفوع (ج.م)</label>
+                            <input type="number" id="sup-ci-amount-paid" min="0" step="0.01" value="0.00">
+                        </div>
+                        <div class="summary-row remaining-debt-row">
+                            <span>المتبقي:</span>
+                            <strong id="sup-ci-summary-remaining">0.00 ج.م</strong>
+                        </div>
+                        <hr class="summary-divider">
+                        <div class="summary-row">
+                            <span>طريقة السداد:</span>
+                            <strong id="sup-ci-summary-method">نقدي</strong>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-close-modal">إلغاء</button>
+                <button type="button" class="btn btn-secondary" id="btn-print-supplier-combined-invoice" style="border-color: rgba(255,171,0,0.4); color: var(--warning);">
+                    <svg class="btn-icon" viewBox="0 0 24 24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+                    طباعة أمر الشراء المجمع
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Print Invoice Preview overlay -->
+    <div class="invoice-print-container" id="invoice-print-section">
+        <!-- Will be filled dynamically by app.js and printed -->
+    </div>
+
+    <!-- Dexie.js for IndexedDB -->
+    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+    <!-- Database Adapter -->
+    <script src="db.js"></script>
+    <!-- Main JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>
