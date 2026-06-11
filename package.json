@@ -1,0 +1,54 @@
+{
+  "name": "karma-prient313",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@capacitor/android": "^8.4.0",
+    "@capacitor/cli": "^8.4.0",
+    "@electron/rebuild": "^4.0.4",
+    "electron": "^42.3.3",
+    "electron-builder": "^26.15.2"
+  },
+  "dependencies": {
+    "@capacitor/core": "^8.4.0",
+    "realm": "^20.2.0"
+  },
+  "build": {
+    "appId": "com.karmaprint.manager",
+    "productName": "Karma Print Manager",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "**/*"
+    ],
+    "asar": true,
+    "asarUnpack": [
+      "**/*.node"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "logo.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Karma Print Manager"
+    }
+  }
+}
